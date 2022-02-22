@@ -5,9 +5,9 @@ const employeeApi = {
     const url = "employee/";
     return axiosClient.get(url, { params });
   },
-  post: () => {
+  post: (data) => {
     const url = "employee/";
-    return axiosClient.post(url);
+    return axiosClient.post(url,data);
   },
   get: (id) => {
     const url = `employee/${id}/`;
@@ -15,11 +15,11 @@ const employeeApi = {
   },
   put: (id, data) => {
     const url = `employee/${id}/`;
-    return axiosClient.get(url, data);
+    return axiosClient.put(url, data);
   },
   delete: (id) => {
     const url = `employee/${id}/`;
-    return axiosClient.get(url);
+    return axiosClient.delete(url);
   },
 };
 

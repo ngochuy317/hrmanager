@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'accounts',
     'rest_framework',
     'hr',
     'template',
@@ -43,12 +44,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",
-    "http://localhost:3000",
-    "http://127.0.0.1:8000",
-    "http://127.0.0.1:3000",
-]
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
 ROOT_URLCONF = 'appmanager.urls'
 
 
@@ -77,14 +75,13 @@ WSGI_APPLICATION = 'appmanager.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'hrapp',
+        'NAME': 'myapp',
         'USER': 'duydoit',
         'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -129,3 +126,14 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'template/build/static')]
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ],
+}
+
+AUTH_USER_MODEL = 'accounts.User'
