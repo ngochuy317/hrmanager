@@ -1,12 +1,10 @@
-from datetime import datetime
-from lib2to3.pgen2 import token
-from django.shortcuts import render
 from rest_framework import generics,views
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from .models import User
 from .serializer import UserSerializer
 from rest_framework.permissions import AllowAny
+from rest_framework import authentication
 import jwt , datetime
 # Create your views here.
 
@@ -27,6 +25,7 @@ class LoginView(views.APIView):
              raise AuthenticationFailed("Incorrect password")
         
         payload = {
+            'role': user.role,
             'id': user.id,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes= 60),
             'iat': datetime.datetime.utcnow()
@@ -36,12 +35,15 @@ class LoginView(views.APIView):
 
         res = Response()
 
-        res.set_cookie(key='jwt', value=token, httponly=True)
+        # res.set_cookie(key='jwt', value=token, httponly=True)
         res.data = {
-            "jwt": token,
+            "expores_at": datetime.datetime.utcnow() + datetime.timedelta(minutes= 60),
+            "name": user.username,
+            "jwttoken": token,
+            "authorities": user.role,
         }
-
         return res
+        
 class LogoutView(views.APIView):
     def get(self, request):
         res = Response()
@@ -52,16 +54,17 @@ class LogoutView(views.APIView):
         return res
 
 
-class TestView(views.APIView):
+class UserView(views.APIView):
+    authentication_classes = [authentication.TokenAuthentication]
     def get(self, request):
-        token = request.COOKIES.get('jwt')
-
+        headers_auth = request.headers['Authorization']
+        if not headers_auth.endswith('Bearer ',0,7):
+            raise AuthenticationFailed("Not token format !")
+        token = headers_auth.split()[1]
         if not token:
             raise AuthenticationFailed("Unauthenticated !")
-            
         try:
-            payload = jwt.decode(token, "secret", algorithms=["HS256"])
-
+            payload = jwt.decode(token, "secret", algorithms=["HS256"], encoding='utf-8')
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed("Unauthenticated !")
 

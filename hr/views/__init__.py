@@ -1,2 +1,2 @@
-from .employeeView import EmployeeViewSet
-from .departmentView import DepartmentViewSet
+from .employeeView import *
+from .departmentView import *
