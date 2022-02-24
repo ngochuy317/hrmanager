@@ -24,3 +24,9 @@ tailwindcss
 semantic-ui-react
 ant-design
 mui-design
+
++++
+Creater user
+PUT localhost:8000/api/v1/register/  {username: "", password : "" , email=""}
+-----
+PUT localhost:8000/api/v1/token/  {username: "", password : ""}
