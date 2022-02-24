@@ -8,21 +8,22 @@ const initalState = {
 export default function employeeReducer(state = initalState, action) {
   switch (action.type) {
     case SET_EMPLOYEES:{
-      let newList = [...action.payload]
+      const newList = [...action.payload]
       return {
         ...state,
         list: newList,
       };
     }
     case DELETE_EMPLOYEE: {
-      let newList = [...state.list]
+      const newList = [...state.list]
       return {
         ...state,
         list: newList.filter(item => { return item.id !== action.payload} )
       }
     }
-    case ADD_EMPLOYEE:{
-      let newList = [...state.list].push(action.payload);
+    case ADD_EMPLOYEE: {
+      const newList = [...state.list];
+      newList.push(action.payload)
       return {
         ...state,
         list: newList,

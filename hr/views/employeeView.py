@@ -7,6 +7,7 @@ from rest_framework.response import Response
 import jwt
 from rest_framework.exceptions import AuthenticationFailed
 from accounts.models import User
+
 # Create Employee Viewsets.
 class EmployeeViewSet(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
     queryset = Employee.objects.all().order_by('created')
@@ -27,6 +28,7 @@ class EmployeeViewSet(generics.GenericAPIView, mixins.ListModelMixin, mixins.Cre
         user = User.objects.filter(id = payload['id']).first()
         if not user:
             raise AuthenticationFailed("Unauthenticated !")
+            
         return self.list(request)
     def post(self, request):
         headers_auth = request.headers['Authorization']
@@ -71,6 +73,7 @@ class EmployeeDetailView(generics.GenericAPIView, mixins.RetrieveModelMixin, mix
         if not headers_auth.endswith('Bearer ',0,7):
             raise AuthenticationFailed("Not token format !")
         token = headers_auth.split()[1]
+
         if not token:
             raise AuthenticationFailed("Unauthenticated !")
         try:

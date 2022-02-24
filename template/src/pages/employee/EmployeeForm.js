@@ -13,6 +13,7 @@ const mapStateToProps = (state) => ({
 function EmployeeForm(props) {
     const {title, employee, addEmployee} = props
     const { register, handleSubmit, formState: { errors }} = useForm({defaultValue: employee})
+    
     const onSubmit = (data) => {
         addEmployee(data)
     }
@@ -30,54 +31,53 @@ function EmployeeForm(props) {
                 <div className="grid grid-cols-6 gap-4 ">
                     
                     <div className="col-span-6 flex flex-col">
-                        <span className="text-sm mb-2">Full Name</span>
+                        <span className="text-sm mb-2">Họ và tên</span>
                         <input type="text" className="px-2 py-2 border rounded focus:outline-none focus:border-2 focus:border-sky-400 focus:text-sky-500" 
                             {...register("name",{ required: true })}
                         />
                     </div>
                     <div className="col-span-3 flex flex-col">
-                        <span className="text-sm mb-2">Gender</span>
+                        <span className="text-sm mb-2">Giới tính</span>
                         <select {...register("gender")} className="px-2 py-2 border rounded focus:outline-none focus:border-2 focus:border-sky-400 focus:text-sky-500">
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
+                            <option value="male">Nam</option>
+                            <option value="female">Nữ</option>
+                            <option value="other">Khác</option>
                         </select>
                     </div>
                     <div className="col-span-3 flex flex-col">
-                        <span className="text-sm mb-2">Marital Status</span>
+                        <span className="text-sm mb-2">Trình trạng hôn nhân</span>
                         <select {...register("marital")} className="px-2 py-2 border rounded focus:outline-none focus:border-2 focus:border-sky-400 focus:text-sky-500">
-                            <option value="single">Single</option>
-                            <option value="married">Married</option>
-                            <option value="cohabitant">Legal Cohabitant</option>
-                            <option value="widower">Widower</option>
-                            <option value="divorced">Divorced</option>
+                            <option value="single">Độc thân</option>
+                            <option value="married">Kết hôn</option>
+                            <option value="cohabitant">Sống thử</option>
+                            <option value="divorced">Ly dị</option>
                         </select>
                     </div>
                     <div className="col-span-3 flex flex-col">
-                        <span className="text-sm mb-2">Birthday</span>
+                        <span className="text-sm mb-2">Ngày sinh</span>
                         <input type="date" className="px-2 py-2 border rounded focus:outline-none focus:border-2 focus:border-sky-400 focus:text-sky-500" 
                             {...register("birthday",{ required: true })}
                         />
                     </div>
                     <div className="col-span-3 flex flex-col">
-                        <span className="text-sm mb-2">Phone Number</span>
+                        <span className="text-sm mb-2">Số điện thoại</span>
                         <input type="text" className="px-2 py-2 border rounded focus:outline-none focus:border-2 focus:border-sky-400 focus:text-sky-500" 
                             {...register("phone",{ required: true })}
                         />
                     </div>
                     <div className="col-span-6 flex flex-col">
-                        <span className="text-sm mb-2">Email Address</span>
+                        <span className="text-sm mb-2">Email</span>
                         <input type="text" className="px-2 py-2 border rounded focus:outline-none focus:border-2 focus:border-sky-400 focus:text-sky-500" 
                             {...register("email",{ required: true })}
                         />
                     </div>
                     <div className="col-span-3 flex flex-col">
-                        <span className="text-sm mb-2">Employee Type</span>
+                        <span className="text-sm mb-2">Thể loại</span>
                         <select {...register("employee_type")} className="px-2 py-2 border rounded focus:outline-none focus:border-2 focus:border-sky-400 focus:text-sky-500">
-                            <option value="employee">Employee</option>
-                            <option value="student">Student</option>
-                            <option value="intern">Intern</option>
-                            <option value="freelancer">Freelancer</option>
+                            <option value="employee">Nhân viên</option>
+                            <option value="student">Học sinh</option>
+                            <option value="intern">Thực tập</option>
+                            <option value="freelancer">Làm tự do</option>
                         </select>
                     </div>
                     <div className="col-span-3 flex flex-col">

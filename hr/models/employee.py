@@ -2,10 +2,10 @@ from django.db import models
 from hr.models.department import Department
 from hr.models.wage_rate import WageRate
 # from accounts.models.user import User
-
+from accounts.models import User
 class Employee(models.Model):
     name = models.CharField(max_length=100)
-    # owner = models.OneToOneField(User, related_name="employees", on_delete=models.CASCADE,null=True)
+    owner = models.OneToOneField(User, related_name="employees", on_delete=models.CASCADE,null=True, blank=True)
     email = models.EmailField(max_length=100, unique=True,null=True, blank=True)
     phone = models.CharField(max_length=15, unique=True,null=True, blank=True)
     birthday = models.DateField()
@@ -30,8 +30,6 @@ class Employee(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.name
 
 
 class ManagerDepartments(models.Model):

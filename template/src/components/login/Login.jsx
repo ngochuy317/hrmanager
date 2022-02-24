@@ -1,12 +1,25 @@
 import React from 'react'
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom'
+import { loginUser } from '../../redux/actions/authActions'
+import {connect} from "react-redux"
+import PropTypes from 'prop-types'
 
-export default function LoginApp() {
+LoginApp.propTypes = {
+    user: PropTypes.object,
+    loginUser: PropTypes.func
+}
+LoginApp.defaultProps = {
+    loginUser: null
+}
+
+function LoginApp(props) {
+    const { loginUser } = props
     const { register, handleSubmit } = useForm();
     const onSubmit = data => {
-        console.log(data)
+        loginUser(data)
     }
+
     return (
         <div className="w-full h-screen flex justify-center items-center">
             <div className="flex shadow-md">
@@ -62,3 +75,4 @@ export default function LoginApp() {
         </div>
     )
 }
+export default connect(null, {loginUser} )(LoginApp)

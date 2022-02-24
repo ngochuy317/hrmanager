@@ -1,29 +1,30 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { UilEstate, UilUsersAlt, UilBagAlt, UilCalender, UilEnvelopeCheck, UilChartGrowth, UilSetting, UilLayerGroup } from '@iconscout/react-unicons'
+
 const menu = [{
-    name: 'General', href: '#', children: [
-        { name: 'Dashboard', path: '/', icon: <UilEstate />, current: true },
-        { name: 'Employee', path: '/employee', icon: <UilUsersAlt />, current: false },
-        { name: 'Department', path: '/department', icon: <UilBagAlt />, current: false },
-        { name: 'Timesheet', path: '/timesheet', icon: <UilCalender />, current: false },
+    name: 'Tổng quan', href: '#', children: [
+        { name: 'Trang chủ', path: '/', icon: <UilEstate />, current: true },
+        { name: 'Nhân viên', path: '/employee', icon: <UilUsersAlt />, current: false },
+        { name: 'Phòng ban', path: '/department', icon: <UilBagAlt />, current: false },
+        { name: 'Chấm công', path: '/timesheet', icon: <UilCalender />, current: false },
     ]
 },
 {
-    name: 'Customization', href: '#', children: [
-        { name: 'Approval', path: '/approval', icon: <UilEnvelopeCheck />, current: false },
-        { name: 'Salary', path: '/salary', icon: < UilLayerGroup />, current: false },
-        { name: 'Statistic', path: '/statistic', icon: < UilChartGrowth />, current: false },
+    name: 'Tuỳ chọn', href: '#', children: [
+        { name: 'Đơn xin nghỉ', path: '/approval', icon: <UilEnvelopeCheck />, current: false },
+        { name: 'Lương', path: '/salary', icon: < UilLayerGroup />, current: false },
+        { name: 'Thống kê', path: '/statistic', icon: < UilChartGrowth />, current: false },
     ]
 },
 {
-    name: 'Configuration', href: '#', children: [
-        { name: 'Account', path: '/account', icon: <UilSetting />, current: true },
+    name: 'Cấu hình', href: '#', children: [
+        { name: 'Tài khoản', path: '/account', icon: <UilSetting />, current: true },
     ]
 },
 ]
 
-function Sidebar() {
+function Sidebar({user}) {
     return (
         <div className="w-[240px] h-screen bg-slate-800 text-white fixed shadow overflow-y-auto">
             <div className="flex items-center p-3 ">
@@ -31,7 +32,7 @@ function Sidebar() {
                     className="w-12 h-12 rounded-full object-cover object-center border-2"
                     alt="avt" />
                 <div className="mx-3">
-                    <div className="font-medium">admin</div>
+                    <div className="font-medium">{user? user.name : ""}</div>
                     <div>
                         <span className="inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                         <span className="text-sm mx-1">Online</span>

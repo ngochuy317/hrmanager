@@ -27,6 +27,7 @@ class LoginView(views.APIView):
         payload = {
             'role': user.role,
             'id': user.id,
+            "name": user.username,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes= 60),
             'iat': datetime.datetime.utcnow()
         }
@@ -39,15 +40,15 @@ class LoginView(views.APIView):
         res.data = {
             "expores_at": datetime.datetime.utcnow() + datetime.timedelta(minutes= 60),
             "name": user.username,
-            "jwttoken": token,
-            "authorities": user.role,
+            "id": user.id,
+            "jwt_token": token,
+            "role": user.role,
         }
         return res
         
 class LogoutView(views.APIView):
     def get(self, request):
         res = Response()
-        res.delete_cookie(key='jwt')
         res.data = {
             "messages": "Logout success"
         }

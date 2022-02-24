@@ -1,19 +1,41 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
+import { useEffect,useState } from "react";
 import { Link } from "react-router-dom";
-import { PencilAltIcon,TrashIcon,FilterIcon } from '@heroicons/react/outline'
+import { FilterIcon } from '@heroicons/react/outline'
 import demoAvt from "../../assets/img/avt_demo.jpg";
 import TableView from "../../components/table/tableView";
-
-function EmployeePage(props) {
-  const { employees, fetchEmployees,deleteEmployee } = props;
+import { useSelector, useDispatch } from "react-redux";
+import { fetchEmployees, deleteEmployee } from "../../redux/actions/employeeAct";
+import Pagination from '../../components/pagination/Pagination'
+function EmployeePage() {
+  const employeeList = useSelector(state => state.employees.list)
+  const dispatch = useDispatch()
+  
+  const [loading, setLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [amountPerPage, setAmountPerPage] = useState(10)
+ 
   useEffect(() => {
-    fetchEmployees();
-  }, [fetchEmployees]);
+    const fetchList = async () => {
+      setLoading(true);
+      dispatch(fetchEmployees());
+      setLoading(false);
+    }
+    fetchList()
+  }, []);
 
+  function handleBtnDelete(id){
+      dispatch(deleteEmployee(id))
+  }
+  // Get current posts
+  const indexOfLastPage = currentPage * amountPerPage
+  const indexOfFirstPage = indexOfLastPage - amountPerPage
+  const currentList = employeeList.slice(indexOfFirstPage,indexOfLastPage)
+  const totalPages = employeeList.length
+  const handlesPaginate = (pageNumber) => setCurrentPage(pageNumber)
+  const handlesAmountItem = (value) => setAmountPerPage(value)
   const columns = [
     {
-      title: "Name",
+      title: "Họ và tên",
       dataIndex: "name",
       key: "name",
       render: (ojb) => (
@@ -33,7 +55,7 @@ function EmployeePage(props) {
       ),
     },
     {
-      title: "Status",
+      title: "Trạng thái",
       dataIndex: "status",
       key: "status",
       render: (ojb) => (
@@ -44,22 +66,22 @@ function EmployeePage(props) {
               : "bg-rose-100 text-rose-600"
           }`}
         >
-          {ojb.status ? "Active" : "Disabled"}
+          {ojb.status ? "Hoạt động" : "Tạm dừng"}
         </div>
       ),
     },
     {
-      title: "Department",
-      dataIndex: "department",
+      title: "Phòng ban",
+      dataIndex: "department_name",
       key: "department",
     },
     {
-      title: "Manager",
-      dataIndex: "parent",
+      title: "Quản lý",
+      dataIndex: "manager_name",
       key: "manager",
     },
     {
-      title: "Admission Date",
+      title: "Ngày tham gia",
       dataIndex: "joindate",
       key: "joindate",
     },
@@ -69,8 +91,8 @@ function EmployeePage(props) {
       key: "control",
       render: (ojb) => (
         <div className="flex">
-         <Link to={`${ojb.id}/edit`}><PencilAltIcon className="h-6 w-6 hover:text-blue-600 mx-2"/></Link>
-         <button onClick={deleteEmployee.bind(this,ojb.id)} ><TrashIcon className="h-6 w-6 hover:text-rose-600 mx-2"/></button>
+         <Link to={`${ojb.id}/edit`}><div className="text-white px-2.5 py-1.5 bg-blue-500 mx-1 hover:bg-blue-600"> Sửa </div></Link>
+         <button onClick={()=>handleBtnDelete(ojb.id)} className="font-medium text-white px-2.5 mx-1 py-1.5 bg-rose-500 hover:bg-rose-600" >Xoá</button>
         </div>
       ),
     },
@@ -81,52 +103,51 @@ function EmployeePage(props) {
       <div className="h-12 bg-slate-200 flex justify-between items-center px-5 shadow border-b border-gray-300">
         <div className="flex items-center">
           <div>
-            <span>Total:</span>
-            <span className="text-blue-700 mx-2">#</span>
+            <span>Tổng số:</span>
+            <span className="text-blue-700 mx-2">{totalPages}</span>
           </div>
           <div className="mx-5">
           <input className="bg-slate-200 placeholder-gray-800 px-2 hidden sm:block py-0.5 w-44 rounded-lg border border-gray-500 focus:bg-slate-100 focus:outline-none"
-                        placeholder="Search employee ..." />
+                        placeholder="Tìm kiếm nhân viên ..." />
           </div>
         </div>
         <div className="text-white flex items-center ">
           <Link
             to="create"
-            className=" bg-sky-600 px-2 py-1 rounded hover:bg-sky-700 ml-2"
+            className=" bg-violet-500 px-2 py-1  hover:bg-violet-600 ml-2"
           >
-            Create
+            Tạo mới
           </Link>
           <Link
             to="add"
-            className=" bg-sky-600 px-2 py-1 rounded hover:bg-sky-700 ml-2"
+            className=" bg-violet-500 px-2 py-1  hover:bg-violet-600 ml-2"
           >
-            Import
+            Nhập
           </Link>
           <Link
             to="add"
-            className="flex item-center bg-sky-600 px-2 py-1 rounded hover:bg-sky-700 ml-2"
+            className=" bg-violet-500 px-2 py-1 hover:bg-violet-600 ml-2"
           >
-            <span>Export</span>
+            <span>Xuất</span>
           </Link>
           <FilterIcon className="text-gray-500 w-5 h-5 font-normal ml-3 hover:text-gray-800" />
         </div>
       </div>
 
       <div className="">
-        <TableView datas={employees} columns={columns} />
+        <TableView datas={currentList} loading={loading} columns={columns} />
       </div>
-      <div className="py-4">Next</div>
+      <div className="my-5 mx-5 flex justify-end">
+        <Pagination 
+          amountPerPage={amountPerPage} 
+          currentPage={currentPage} 
+          totalPages={totalPages} 
+          paginate={handlesPaginate} 
+          amountItem={handlesAmountItem}
+        />
+      </div>
     </div>
   );
 }
 
-EmployeePage.propTypes = {
-  employees: PropTypes.array.isRequired,
-  fetchEmployees: PropTypes.func,
-  deleteEmployee: PropTypes.func,
-};
-EmployeePage.defaultProps = {
-  fetchEmployees: null,
-  deleteEmployee: null,
-};
 export default EmployeePage;

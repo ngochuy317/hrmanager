@@ -12,3 +12,6 @@ class Salary(models.Model):
 
     def __str__(self):
         return self.employee.name
+
+
+    # tong = (basic_wage + allowance)x ngay cong / so ngay cong ty quy dinh
