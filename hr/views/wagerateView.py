@@ -16,7 +16,7 @@ class WageRateViewSet(APIView):
         if self.request.method == 'GET':
             permission_classes = [AllowAny]
         else:
-            permission_classes = [AllowAny]
+            permission_classes = [AdminPermission]
         return [permission() for permission in permission_classes]
 
 
