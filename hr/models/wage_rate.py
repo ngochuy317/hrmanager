@@ -7,4 +7,4 @@ class WageRate(models.Model):
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.wage_rate
+        return f"{self.wage_rate}"
