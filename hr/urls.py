@@ -7,5 +7,5 @@ urlpatterns = [
     path('employee/<int:pk>/', EmployeeDetailView.as_view(), name='detail_employee'),
     path('department/', DepartmentViewSet.as_view(), name='department'),
     path('department/<int:pk>/', DepartmentDetailView.as_view(), name='detail_department'),
-    path('timekeeper/', TimekeeperViewSet.as_view(), name='timekeeper'),
+    path('timekeeper/<str:employeename>/', TimekeeperViewSet.as_view(), name='timekeeper'),
 ]
