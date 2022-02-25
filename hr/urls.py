@@ -8,4 +8,6 @@ urlpatterns = [
     path('department/', DepartmentViewSet.as_view(), name='department'),
     path('department/<int:pk>/', DepartmentDetailView.as_view(), name='detail_department'),
     path('timekeeper/<str:employeename>/', TimekeeperViewSet.as_view(), name='timekeeper'),
+    path('correctaccess/<str:employeename>/', CorrectAccessViewSet.as_view(), name='correctaccess'),
+    path('wagerate/', WageRateViewSet.as_view(), name='wagerate'),
 ]
