@@ -23,7 +23,7 @@ class CustomBasePermission(permissions.BasePermission):
                     payload = jwt.decode(token, "secret", algorithms=["HS256"], encoding='utf-8')
                     id = payload.get('id')
                     user = User.objects.filter(id=id).first()
-                    if user and user.role.lower() == self.get_role():
+                    if user and user.role.lower() in self.get_role():
                         return True
                 except jwt.ExpiredSignatureError:
                     return False
@@ -40,16 +40,22 @@ class CustomBasePermission(permissions.BasePermission):
 class AdminPermission(CustomBasePermission):
 
     def get_role(self):
-        return "admin"
+        return ["admin"]
 
 
 class ManagerPermission(CustomBasePermission):
 
     def get_role(self):
-        return "manager"
+        return ["manager"]
 
 
 class UserPermission(CustomBasePermission):
 
     def get_role(self):
-        return "user"
+        return ["user"]
+
+
+class AllowAnyUserPermission(CustomBasePermission):
+
+    def get_role(self):
+        return ["admin", "manager", "user"]
