@@ -20,8 +20,8 @@ class CorrectAccessViewSet(APIView):
         employeename = kwargs.get("employeename", None)
         employee = Employee.objects.filter(name=employeename).first()
         if employee:
-            timekeeper = CorrectAccess.objects.filter(employee=employee).order_by('id')
-            serializer = CorrectAccessSerializer(timekeeper, many=True)
+            correctaccess = CorrectAccess.objects.filter(employee=employee).order_by('id')
+            serializer = CorrectAccessSerializer(correctaccess, many=True)
             response = Response()
             response.data = serializer.data
             return response
