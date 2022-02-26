@@ -10,4 +10,5 @@ urlpatterns = [
     path('timekeeper/<str:employeename>/', TimekeeperViewSet.as_view(), name='timekeeper'),
     path('correctaccess/<str:employeename>/', CorrectAccessViewSet.as_view(), name='correctaccess'),
     path('wagerate/', WageRateViewSet.as_view(), name='wagerate'),
+    path('salary/<int:id>/<int:month>/<int:year>/', SalaryViewSet.as_view(), name='salary'),
 ]

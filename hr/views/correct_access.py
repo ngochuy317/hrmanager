@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 
 
 class CorrectAccessViewSet(APIView):
-    permission_classes = (AllowAny,)
+    permission_classes = (AllowAnyUserPermission,)
 
     def get(self, request, *args, **kwargs):
 
