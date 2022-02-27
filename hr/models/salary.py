@@ -8,7 +8,7 @@ class Salary(models.Model):
     year = models.IntegerField()
     month = models.IntegerField()
     work_days = models.FloatField(default=0)
-    overall_wage = models.IntegerField()
+    overall_wage = models.FloatField(blank=True, null=True)
 
     def __str__(self):
         return self.employee.name
