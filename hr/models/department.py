@@ -8,5 +8,7 @@ class Department(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    manager = models.IntegerField(blank=True, null=True)
 
-    
+    def __str__(self) -> str:
+        return self.name
